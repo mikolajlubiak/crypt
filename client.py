@@ -1,23 +1,37 @@
-import socket, time, threading
+from socket import socket, AF_INET, SOCK_STREAM
+from threading import Thread
+from time import sleep
+from subprocess import run
+from sys import argv
+try:
+    from cryptography.fernet import Fernet
+except:
+    run("python3 -m pip install cryptography")
+    from cryptography.fernet import Fernet
 
 class client():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s = socket(AF_INET, SOCK_STREAM)
 
     def __init__(self):
-        self.s.connect(('127.0.0.1', 12345))
+        if len(argv) == 4: k = argv[3].encode()
+        else:
+            k = Fernet.generate_key()
+            print(k)
+        self.f = Fernet(k)
+        self.s.connect((argv[1], int(argv[2])))
 
     def sMsg(self, msg):
-        self.s.send(msg.encode())
+        self.s.send(self.f.encrypt(msg.encode()))
 
     def rMsg(self):
         while True:
             d = ''
-            d = self.s.recv(1024).decode()
+            d = self.f.decrypt(self.s.recv(1024)).decode()
             print(end=d)
-            time.sleep(0.1)
+            sleep(0.1)
 
     def chat(self):
-        receiving = threading.Thread(target=self.rMsg)
+        receiving = Thread(target=self.rMsg)
         receiving.daemon = True
         receiving.start()
         while True:
@@ -27,5 +41,6 @@ class client():
                 self.sMsg(msg)
 
 if __name__ == '__main__':
+    run("clear")
     Client = client()
     Client.chat()

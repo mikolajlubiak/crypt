@@ -18,7 +18,7 @@ class client():
         if len(argv) == 4: k = argv[3].encode()
         else:
             k = Fernet.generate_key()
-            print(k).decode()
+            print(k.decode())
         self.f = Fernet(k)
         self.s.connect((argv[1], int(argv[2])))
 

@@ -18,7 +18,7 @@ class Server:
         if len(argv) == 4: k = argv[3].encode()
         else:
             k = Fernet.generate_key()
-            print(k)
+            print(k).decode()
         self.f = Fernet(k)
         self.s.bind((argv[1], int(argv[2])))
         self.s.listen(3)

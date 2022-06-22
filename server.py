@@ -2,7 +2,7 @@ from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread
 from time import sleep
 from subprocess import check_call
-from sys import argv
+from sys import argv, executable
 try:
     from cryptography.fernet import Fernet
 except:

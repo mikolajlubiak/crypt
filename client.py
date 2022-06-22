@@ -1,12 +1,12 @@
 from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread
 from time import sleep
-from subprocess import run
-from sys import argv
+from subprocess import check_call
+from sys import argv, executable
 try:
     from cryptography.fernet import Fernet
 except:
-    run("python3 -m pip install cryptography")
+    check_call((executable, '-m', 'pip', 'install', 'cryptography'))
     from cryptography.fernet import Fernet
 
 class client():
@@ -41,6 +41,6 @@ class client():
                 self.sMsg(msg)
 
 if __name__ == '__main__':
-    run("clear")
+    check_call('clear')
     Client = client()
     Client.chat()

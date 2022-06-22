@@ -37,10 +37,11 @@ class client():
         receiving.daemon = True
         receiving.start()
         while True:
-                msg = input()
-                msg = f"\nClient: {msg}\n"
-                print(msg)
-                self.sMsg(msg)
+            msg = input()
+            print('\033[1A' + '\033[K', end='')
+            msg = f"\nClient: {msg}\n"
+            print(msg)
+            self.sMsg(msg)
 
 if __name__ == '__main__':
     check_call('clear')

@@ -37,6 +37,7 @@ class Server:
         self.receiving.start()
         while True:
             msg = input()
+            print('\033[1A' + '\033[K', end='')
             msg = f"\nADMIN: {msg}\n"
             print(msg)
             self.client.send(self.f.encrypt(msg.encode()))
